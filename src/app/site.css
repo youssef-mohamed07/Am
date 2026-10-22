@@ -200,7 +200,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .coaching-steps .btn { margin-top: auto; }
 
 /* UGC */
-.ugc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.ugc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.media-external { position: absolute; inset: 0; display: grid; place-items: center; background: radial-gradient(circle at 50% 40%, #ffda0024, #121211 58%); }
 .media-card { position: relative; overflow: hidden; aspect-ratio: 9 / 15; border-radius: var(--radius); background: var(--bg-3); isolation: isolate; }
 .media-card.is-large { grid-row: span 2; }
 .media-img { position: absolute; inset: 0; z-index: -2; background-size: cover; background-position: center 20%; transition: transform 1.2s var(--ease); }
@@ -288,7 +289,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .reels-stats > div { display: flex; flex-direction: column-reverse; gap: 4px; }
 .reels-stats dt { font-size: 13px; font-weight: 600; color: #141200a6; }
 .reels-stats dd { font-family: var(--font-display), Impact, sans-serif; font-size: clamp(38px, 3.4vw, 52px); line-height: 1; }
-.reel-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.reel-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 .reel-card { position: relative; display: block; aspect-ratio: 9 / 14; overflow: hidden; border-radius: 20px; background: #000; color: #fff; isolation: isolate; transform: rotate(var(--tilt, 0deg)); box-shadow: 0 30px 50px -24px #0009; transition: transform .5s var(--ease), box-shadow .5s; }
 .reel-card:hover { transform: rotate(0) translateY(-10px) scale(1.02); box-shadow: 0 40px 60px -24px #000b; }
 .reel-img { position: absolute; inset: 0; z-index: -2; background-size: cover; background-position: center; transition: transform 1.2s var(--ease); }
@@ -297,7 +298,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .reel-play { position: absolute; top: 50%; left: 50%; translate: -50% -50%; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); transition: transform .4s var(--ease); }
 .reel-play svg { width: 22px; height: 22px; margin-left: 3px; }
 .reel-card:hover .reel-play { transform: scale(1.15); }
+.reel-card.is-top { box-shadow: 0 30px 50px -24px #0009, 0 0 0 3px #141200; }
 .reel-copy { position: absolute; inset: auto 20px 20px; pointer-events: none; }
+.reel-top { display: inline-block; margin-bottom: 8px; padding: 4px 10px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-style: normal; font-size: 12px; font-weight: 800; }
 .reel-link { position: absolute; z-index: 2; top: 16px; inset-inline-end: 16px; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); transition: transform .3s var(--ease); }
 .reel-link .arrow { transform: rotate(-45deg); }
 [dir="rtl"] .reel-link .arrow { transform: scaleX(-1) rotate(-45deg); }

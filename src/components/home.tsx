@@ -100,15 +100,17 @@ const feedbackHighlight = "https://www.instagram.com/stories/highlights/18058623
 
 // Reels live in public/reels as <name>.mp4 + <name>.jpg (cover).
 const reels = [
-  ["gym-forced", "POV: heading to leg day… then slipped", "https://www.instagram.com/abdullahmuhhameed/reel/DX5C_yIACkp/", "87.1K"],
-  ["gym-buddy", "When your gym buddy doesn't show up", "https://www.instagram.com/abdullahmuhhameed/reel/DX7r_eEAXUH/", "1.9K"],
-  ["delivery", "The classiest delivery in town", "https://www.instagram.com/abdullahmuhhameed/reel/DV4c8aiMq0m/", "4.6K"],
+  ["gym-content", "Hasn't finished a week at the gym", "https://www.instagram.com/reel/C3N6fLatd4Z/", "129.8K", "likes"],
+  ["gym-forced", "POV: heading to leg day… then slipped", "https://www.instagram.com/abdullahmuhhameed/reel/DX5C_yIACkp/", "87.1K", "views"],
+  ["gym-buddy", "When your gym buddy doesn't show up", "https://www.instagram.com/abdullahmuhhameed/reel/DX7r_eEAXUH/", "1.9K", "views"],
+  ["delivery", "The classiest delivery in town", "https://www.instagram.com/abdullahmuhhameed/reel/DV4c8aiMq0m/", "4.6K", "views"],
 ];
 
 const brandReels = [
-  ["debonairs", "Debonairs Pizza", "Food & beverage", "https://www.instagram.com/abdullahmuhhameed/reel/DbhA3BfswX_/"],
-  ["oud", "Oud Shop", "Fragrance", "https://www.instagram.com/abdullahmuhhameed/reel/DexZhXeN-GC/"],
-  ["limitless", "Limitless Naturals", "Lifestyle", "https://www.instagram.com/abdullahmuhhameed/reel/DcTsgjwNEMp/"],
+  ["sweatzy", "Sweatzy", "Fashion", "https://www.instagram.com/reel/Dc1LePdtwnt/"],
+  ["", "Watch on Instagram", "Instagram", "https://www.instagram.com/reel/DeNP0AOtLyA/"],
+  ["oud", "Oud Shop", "Fragrance", "https://www.instagram.com/reel/DexZhXeN-GC/"],
+  ["mavin", "Mavin Wear", "Fashion", "https://www.instagram.com/reel/DeuztNrtsxX/"],
 ];
 
 // Muted, looping reel that plays only while on screen. Tap to toggle sound.
@@ -154,7 +156,7 @@ const faqs = [
   ["How does online coaching work?", "After your application, we build a plan around your schedule, goals and lifestyle. You get weekly check-ins, direct support and ongoing adjustments so you always know your next move."],
   ["Do I need a gym to get started?", "Not at all. Your plan can be built for a commercial gym, a home setup or a combination of both."],
   ["How long until I see results?", "Most clients feel meaningful changes in the first few weeks. Your consistency, starting point and goal determine the pace — we focus on sustainable progress that lasts."],
-  ["What kind of brands do you work with?", "I create high-retention content for fitness, nutrition, food & beverage, grooming, fashion and lifestyle brands."],
+  ["What kind of brands do you work with?", "I create short-form UGC for fitness, nutrition, food & beverage, grooming, fashion and lifestyle brands. Every collaboration is tailored to the audience, platform and campaign goal."],
 ];
 
 // Real client messages from the FEEDBACK highlight (names hidden by the clients' request).
@@ -366,15 +368,15 @@ export default function Home({ language }: { language: "ar" | "en" }) {
         </div>
         <div className="hero-glow" aria-hidden="true" />
         <div className="wrap hero-inner">
-          <p className="kicker hero-in" style={{ "--d": "0ms" } as React.CSSProperties}><span className="live-dot" />{t("Online coaching")} <i>·</i> {t("CAIRO, EGYPT")} <i>→</i> {t("WORLDWIDE")}</p>
+          <p className="kicker hero-in" style={{ "--d": "0ms" } as React.CSSProperties}><span className="live-dot" />{t("Online coaching & UGC creation")} <i>·</i> {t("CAIRO, EGYPT")} <i>→</i> {t("WORLDWIDE")}</p>
           <h1 className="hero-title">
-            <span className="hero-line hero-in" style={{ "--d": "80ms" } as React.CSSProperties}>{t("Better is")}</span>
-            <span className="hero-line hero-in" style={{ "--d": "200ms" } as React.CSSProperties}><span className="mark">{t("built daily.")}</span></span>
+            <span className="hero-line hero-in" style={{ "--d": "80ms" } as React.CSSProperties}>{t("Build your body.")}</span>
+            <span className="hero-line hero-in" style={{ "--d": "200ms" } as React.CSSProperties}><span className="mark">{t("Grow your brand.")}</span></span>
           </h1>
-          <p className="hero-lead hero-in" style={{ "--d": "320ms" } as React.CSSProperties}>{t("Let’s build a body — and a life — you feel good in.")}</p>
+          <p className="hero-lead hero-in" style={{ "--d": "320ms" } as React.CSSProperties}>{t("Personalized online coaching for people ready to change — and authentic UGC for brands ready to connect.")}</p>
           <div className="hero-actions hero-in" style={{ "--d": "420ms" } as React.CSSProperties}>
-            <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-primary">{t("Let’s build your next chapter")} <Arrow /></a>
-            <a href="#reels" className="btn btn-ghost"><span className="play-dot"><Play /></span>{t("Watch the reels")}</a>
+            <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-primary">{t("Start coaching")} <Arrow /></a>
+            <a href="#ugc" className="btn btn-ghost"><span className="play-dot"><Play /></span>{t("View UGC portfolio")}</a>
           </div>
           <dl className="hero-stats hero-in" style={{ "--d": "540ms" } as React.CSSProperties}>
             <div><dt>{t("Clients coached")}</dt><dd><CountUp to={80} suffix="+" /></dd></div>
@@ -399,11 +401,12 @@ export default function Home({ language }: { language: "ar" | "en" }) {
           </div>
           <div data-reveal style={{ "--d": "120ms" } as React.CSSProperties}>
             <p className="eyebrow">{t("01 / Meet Abdullah")}</p>
-            <h2 className="display">{t("More than")}<br />{t("a")} <span className="accent">{t("coach.")}</span></h2>
-            <p className="lead">{t("I know what it feels like to start from zero, lose momentum and wonder if you're doing it right. That's why I built a coaching experience that makes progress feel clear, personal and possible.")}</p>
+            <h2 className="display">{t("Coach.")}<br /><span className="accent">{t("Creator.")}</span></h2>
+            <p className="lead">{t("I combine certified coaching with hands-on content creation. Whether you want a stronger body or a stronger brand presence, you get a clear process, consistent support and work built around your goal.")}</p>
             <ul className="credentials">
               <li><strong dir="ltr">ISSA</strong>{t("Certified personal trainer & nutritionist")}</li>
               <li><strong>{t("Zamalek Academy")}</strong>{t("Fitness coach")}</li>
+              <li><strong>{t("UGC creator")}</strong>{t("Fitness, fashion & lifestyle content")}</li>
             </ul>
             <blockquote className="pull-quote">{t("There’s no shortcut. There’s the right way.")}</blockquote>
             <a href="#moments" className="link-arrow">{t("My story")} <Arrow /></a>
@@ -418,20 +421,22 @@ export default function Home({ language }: { language: "ar" | "en" }) {
               <p className="eyebrow">{t("02 / UGC studio")}</p>
               <h2 className="display">{t("Content that")}<br /><span className="mark">{t("converts.")}</span></h2>
             </div>
-            <p className="lead">{t("Authentic, scroll-stopping content made to feel native to your audience — and valuable to your brand.")}</p>
+            <p className="lead">{t("Short-form UGC built around a clear hook, natural delivery and platform-native editing — ready for organic posts and paid campaigns.")}</p>
           </header>
           <div className="ugc-grid">
             {brandReels.map(([name, brand, category, link], index) => (
-              <article key={name} className="media-card" data-reveal style={{ "--d": `${index * 100}ms` } as React.CSSProperties}>
-                <AutoReel name={name} label={brand} soundOn={t("Turn sound on")} soundOff={t("Turn sound off")} />
-                <div className="media-copy"><span className="chip">{t(category)}</span><h3 dir="ltr">{brand}</h3></div>
-                <a className="media-arrow" href={link} target="_blank" rel="noopener noreferrer" aria-label={`${brand} — ${t("Watch on Instagram")}`}><Arrow /></a>
+              <article key={link} className="media-card" data-reveal style={{ "--d": `${index * 100}ms` } as React.CSSProperties}>
+                {name
+                  ? <AutoReel name={name} label={brand} soundOn={t("Turn sound on")} soundOff={t("Turn sound off")} />
+                  : <a className="media-external" href={link} target="_blank" rel="noopener noreferrer" aria-label={t(brand)}><span className="play-dot"><Play /></span></a>}
+                <div className="media-copy"><span className="chip">{t(category)}</span><h3 dir={name ? "ltr" : undefined}>{name ? brand : t(brand)}</h3></div>
+                {name ? <a className="media-arrow" href={link} target="_blank" rel="noopener noreferrer" aria-label={`${brand} — ${t("Watch on Instagram")}`}><Arrow /></a> : null}
               </article>
             ))}
           </div>
           <div className="ugc-foot" data-reveal>
-            <ul className="pill-list">{t("Fitness • Food & beverage • Grooming • Lifestyle").split(" • ").map((item) => <li key={item}>{item}</li>)}</ul>
-            <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="link-arrow">{t("Work with me")} <Arrow /></a>
+            <ul className="pill-list">{t("Creative concepts • On-camera delivery • Native editing • Organic & paid social").split(" • ").map((item) => <li key={item}>{item}</li>)}</ul>
+            <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="link-arrow">{t("Plan a brand collaboration")} <Arrow /></a>
           </div>
         </div>
       </section>
@@ -443,7 +448,7 @@ export default function Home({ language }: { language: "ar" | "en" }) {
               <p className="eyebrow">{t("03 / Online coaching")}</p>
               <h2 className="display">{t("No guesswork.")}<br /><span className="accent">{t("Just progress.")}</span></h2>
             </div>
-            <p className="lead">{t("A plan built around your body, your schedule and your actual life — not a template you'll quit in three weeks.")}</p>
+            <p className="lead">{t("Personalized training, practical nutrition, weekly check-ins and direct support — all built around your body, schedule and real life.")}</p>
           </header>
           <div className="coaching-board" data-reveal>
             <div className="coaching-includes">
@@ -502,15 +507,15 @@ export default function Home({ language }: { language: "ar" | "en" }) {
             <p className="reels-lead">{t("Training, food and everyday life — the way I share it with my followers every day.")}</p>
             <dl className="reels-stats">
               <div><dt>{t("followers")}</dt><dd dir="ltr">51.7K</dd></div>
-              <div><dt>{t("top reel views")}</dt><dd dir="ltr">87.1K</dd></div>
+              <div><dt>{t("top reel likes")}</dt><dd dir="ltr">129.8K</dd></div>
             </dl>
             <a href={reelsAccount} target="_blank" rel="noopener noreferrer" className="btn btn-dark"><span dir="ltr">@abdullahmuhhameed</span> <Arrow /></a>
           </header>
           <div className="reel-grid">
-            {reels.map(([name, title, link, views], index) => (
-              <article key={name} className="reel-card" data-reveal style={{ "--d": `${index * 90}ms`, "--tilt": `${index % 2 ? 2 : -2}deg` } as React.CSSProperties}>
+            {reels.map(([name, title, link, count, unit], index) => (
+              <article key={name} className={`reel-card${index === 0 ? " is-top" : ""}`} data-reveal style={{ "--d": `${index * 90}ms`, "--tilt": `${index % 2 ? 2 : -2}deg` } as React.CSSProperties}>
                 <AutoReel name={name} label={t(title)} soundOn={t("Turn sound on")} soundOff={t("Turn sound off")} />
-                <div className="reel-copy"><span><b dir="ltr">{views}</b> {t("views")}</span><p>{t(title)}</p></div>
+                <div className="reel-copy">{index === 0 ? <em className="reel-top">{t("Top reel")}</em> : null}<span><b dir="ltr">{count}</b> {t(unit)}</span><p>{t(title)}</p></div>
                 <a className="reel-link" href={link} target="_blank" rel="noopener noreferrer" aria-label={`${t(title)} — ${t("Watch on Instagram")}`}><Arrow /></a>
               </article>
             ))}
@@ -652,7 +657,7 @@ export default function Home({ language }: { language: "ar" | "en" }) {
 
             <div className="footer-card">
               <p className="footer-card-title">{t("Ready to")} <span className="accent">{t("move?")}</span></p>
-              <p>{t("Tell me a little about your goals. I'll get back to you within 24 hours.")}</p>
+              <p>{t("Tell me whether you're here for coaching or a brand collaboration. I'll get back to you within 24 hours.")}</p>
               <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-primary">{t("Start a conversation")} <Arrow /></a>
             </div>
           </div>
