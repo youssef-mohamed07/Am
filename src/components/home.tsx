@@ -342,7 +342,7 @@ export default function Home({ language }: { language: "ar" | "en" }) {
               {navLinks.map(([href, label]) => <a key={href} href={href} className={active === href ? "is-active" : undefined} aria-current={active === href ? "true" : undefined}>{t(label)}</a>)}
             </div>
             <div className="nav-end">
-              <a href={isArabic ? "/en" : "/"} className="language-switch" lang={isArabic ? "en" : "ar"} hrefLang={isArabic ? "en" : "ar"} aria-label={isArabic ? "Switch to English" : "التبديل إلى العربية"}>{isArabic ? "EN" : "عربي"}</a>
+              <a href={isArabic ? "/en" : "/ar"} className="language-switch" lang={isArabic ? "en" : "ar"} hrefLang={isArabic ? "en" : "ar"} aria-label={isArabic ? "Switch to English" : "التبديل إلى العربية"}>{isArabic ? "EN" : "عربي"}</a>
               <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="nav-cta">{t("Let's talk")} <Arrow /></a>
               <button className="menu-toggle" aria-label={t("Toggle menu")} aria-expanded={menuOpen} aria-controls="mobile-menu" onClick={() => setMenuOpen(!menuOpen)}>
                 <span /><span />
@@ -659,6 +659,7 @@ export default function Home({ language }: { language: "ar" | "en" }) {
 
           <div className="footer-bottom">
             <span>{t("© 2026 Abdullah Muhameed. All rights reserved.")}</span>
+            <a href="https://www.youssefmohamed.dev" target="_blank" rel="noopener" className="footer-credit">{t("Designed & developed by")} <strong>{t("Youssef Mohamed")}</strong></a>
             <a href="#top" className="to-top">{t("Back to top")} <span className="to-top-icon" aria-hidden="true">↑</span></a>
           </div>
         </div>

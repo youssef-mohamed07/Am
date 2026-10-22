@@ -217,6 +217,8 @@ export const arabic: Record<string, string> = {
   "Previous photo": "الصورة اللي قبلها",
   "Next photo": "الصورة اللي بعدها",
   "What you get": "هتاخد إيه معايا",
+  "Designed & developed by": "تصميم وتطوير",
+  "Youssef Mohamed": "يوسف محمد",
   "Abdullah Muhameed": "عبدالله محمد",
   "Close": "اقفل",
   "Contact Abdullah": "تواصل مع عبدالله",

@@ -437,6 +437,9 @@ a.footer-contact:hover span { color: var(--accent); }
 .footer-card p:not(.footer-card-title) { margin: 12px 0 22px; color: var(--muted); font-size: 15px; line-height: 1.65; }
 .footer-card .btn { width: 100%; justify-content: center; }
 .footer-bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-top: clamp(48px, 6vw, 72px); padding-block: 22px; border-top: 1px solid var(--line); color: var(--dim); font-size: 14px; }
+.footer-credit { color: var(--dim); transition: color .2s; }
+.footer-credit strong { color: var(--muted); font-weight: 700; transition: color .2s; }
+.footer-credit:hover, .footer-credit:hover strong { color: var(--accent); }
 .to-top { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); font-weight: 600; transition: color .2s; }
 .to-top-icon { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--line-strong); border-radius: 50%; transition: background .2s, color .2s, border-color .2s, transform .25s var(--ease); }
 .to-top:hover { color: var(--ink); }
