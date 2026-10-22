@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { arabic } from "../app/translations";
 import { siteConfig } from "../app/site-config";
@@ -53,13 +53,25 @@ const InstagramIcon = () => (
   </svg>
 );
 
+const TikTokIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M16.6 2.5c.4 2.4 1.9 4 4.1 4.3v3.2a7.4 7.4 0 0 1-4.1-1.3v6.5a5.8 5.8 0 1 1-5.8-5.8l.9.1v3.3a2.6 2.6 0 1 0 1.7 2.4V2.5h3.2Z" />
+  </svg>
+);
+
+const FacebookIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M14 8.5V6.8c0-.8.5-1.3 1.3-1.3H17V2.3a22 22 0 0 0-2.4-.3C12 2 10.5 3.6 10.5 6.3v2.2H8v3.3h2.5V22H14V11.8h2.7l.4-3.3H14Z" />
+  </svg>
+);
+
 const Star = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="m12 2.5 2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8L12 2.5Z" />
   </svg>
 );
 
-const navLinks = [["#about", "About"], ["#coaching", "Coaching"], ["#ugc", "UGC Studio"], ["#transformations", "Results"], ["#reels", "Reels"], ["#faq", "FAQ"]];
+const navLinks = [["#about", "About"], ["#ugc", "UGC Studio"], ["#coaching", "Coaching"], ["#transformations", "Results"], ["#reels", "Reels"], ["#faq", "FAQ"]];
 
 const tape = ["Discipline", "Strength", "Nutrition", "Consistency", "Results", "Content"];
 
@@ -80,7 +92,9 @@ const instagram = "https://www.instagram.com/abdullahmuhhameed/";
 const whatsapp = "https://wa.me/201017055212";
 const phone = "tel:+201017055212";
 const email = "abdallahberbatov@gmail.com";
-const interests = ["Online coaching", "UGC & brand collaboration", "Both"];
+const tiktok = "https://www.tiktok.com/@abdullah_muhameed";
+const facebook = "https://www.facebook.com/abdallahberbatov";
+const facebookPage = "https://www.facebook.com/profile.php?id=61591460766415";
 const reelsAccount = "https://www.instagram.com/abdullahmuhhameed/reels/";
 const feedbackHighlight = "https://www.instagram.com/stories/highlights/18058623980264452/";
 
@@ -150,6 +164,22 @@ const reviews = [
   ["“That pair of jeans fits now. No scale needed.”", "I had jeans two sizes smaller than usual — happy to say they fit now 😂 Thanks for putting up with me, and I really loved the plan.", "Coaching client", "WhatsApp message"],
 ];
 
+// Photos from training, shoots and events. [file, caption, width, height]
+const moments: [string, string, number, number][] = [
+  ["issa-certified", "ISSA certified trainer", 1162, 1280],
+  ["team-selfie", "On the pitch", 2000, 1500],
+  ["on-set-library", "On set", 1053, 1202],
+  ["gym-session", "In the gym", 960, 1280],
+  ["pizza-shoot", "Behind the scenes", 720, 1280],
+  ["match-day", "Match day", 1500, 2000],
+  ["meet-legend", "Good company", 960, 1280],
+  ["on-set-selfie", "Behind the scenes", 1500, 2000],
+  ["night-out", "Good company", 956, 1280],
+  ["match-day-2", "Match day", 1500, 2000],
+  ["on-set-guest", "Good company", 860, 1280],
+  ["friends-bus", "On location", 1500, 2000],
+];
+
 const messageShots = ["05", "19", "17", "09", "34", "10", "39", "58"];
 const transformations = ["01", "02", "03", "04", "05", "06"];
 
@@ -198,6 +228,8 @@ function SocialFab({ t }: { t: Translate }) {
   const links: [string, string, React.ReactNode, boolean][] = [
     [whatsapp, "WhatsApp", <ChatIcon key="wa" />, true],
     [instagram, "Instagram", <InstagramIcon key="ig" />, true],
+    [tiktok, "TikTok", <TikTokIcon key="tt" />, true],
+    [facebook, "Facebook", <FacebookIcon key="fb" />, true],
     [phone, "Call me", <PhoneIcon key="ph" />, false],
     [`mailto:${email}`, "Email", <MailIcon key="em" />, false],
   ];
@@ -222,21 +254,45 @@ function SocialFab({ t }: { t: Translate }) {
   );
 }
 
+// Full-screen photo viewer with keyboard and button navigation.
+function Lightbox({ index, onClose, onMove, t }: { index: number; onClose: () => void; onMove: (step: number) => void; t: Translate }) {
+  const [file, caption, width, height] = moments[index];
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+      if (event.key === "ArrowRight") onMove(document.dir === "rtl" ? -1 : 1);
+      if (event.key === "ArrowLeft") onMove(document.dir === "rtl" ? 1 : -1);
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
+  }, [onClose, onMove]);
+
+  return (
+    <div className="lightbox" role="dialog" aria-modal="true" aria-label={t(caption)} onClick={onClose}>
+      <figure className="lightbox-figure" onClick={(event) => event.stopPropagation()}>
+        <Image src={`/moments/${file}.webp`} alt={t(caption)} width={width} height={height} sizes="90vw" className="lightbox-img" />
+        <figcaption><span>{t(caption)}</span><small dir="ltr">{index + 1} / {moments.length}</small></figcaption>
+      </figure>
+      <button type="button" className="lightbox-btn lightbox-close" aria-label={t("Close")} onClick={onClose}><span aria-hidden="true">×</span></button>
+      <button type="button" className="lightbox-btn lightbox-prev" aria-label={t("Previous photo")} onClick={(event) => { event.stopPropagation(); onMove(-1); }}><Arrow /></button>
+      <button type="button" className="lightbox-btn lightbox-next" aria-label={t("Next photo")} onClick={(event) => { event.stopPropagation(); onMove(1); }}><Arrow /></button>
+    </div>
+  );
+}
+
 export default function Home({ language }: { language: "ar" | "en" }) {
   const isArabic = language === "ar";
   const t = (text: string) => isArabic ? (arabic[text] ?? text) : text;
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("");
+  const [photo, setPhoto] = useState<number | null>(null);
+  const closePhoto = useCallback(() => setPhoto(null), []);
+  const movePhoto = useCallback((step: number) => setPhoto((current) => current === null ? null : (current + step + moments.length) % moments.length), []);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const [interest, setInterest] = useState(interests[0]);
 
-  // No backend yet: the form hands the message to WhatsApp, ready to send.
-  const sendToWhatsApp = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const text = `${t("Hi Abdullah, I'm")} ${data.get("name")}\n${t("I'm interested in")}: ${t(interest)}\n\n${data.get("message")}`;
-    window.open(`${whatsapp}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
-  };
   const shell = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -257,6 +313,15 @@ export default function Home({ language }: { language: "ar" | "en" }) {
     return () => { observer.disconnect(); window.removeEventListener("scroll", onScroll); };
   }, []);
 
+  // Highlight the nav link of the section currently in view.
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) setActive(entry.target.id ? `#${entry.target.id}` : "");
+    }), { rootMargin: "-45% 0px -50% 0px" });
+    document.querySelectorAll("section[id], .site-footer").forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -267,26 +332,28 @@ export default function Home({ language }: { language: "ar" | "en" }) {
   return (
     <main ref={shell} className="site-shell" lang={language} dir={isArabic ? "rtl" : "ltr"}>
       <nav className={`main-nav${scrolled ? " is-scrolled" : ""}${menuOpen ? " is-open" : ""}`}>
-        <div className="wrap nav-bar">
-          <a href="#top" className="brand" aria-label={t("Abdullah Muhameed home")} onClick={closeMenu}>
-            <span className="brand-avatar" aria-hidden="true" />
-            <span className="brand-name"><strong>{t("Abdullah Muhameed")}</strong><small dir="ltr">@abdullahmuhhameed</small></span>
-          </a>
-          <div className="nav-links">
-            {navLinks.slice(0, 4).map(([href, label]) => <a key={href} href={href}>{t(label)}</a>)}
+        <div className="wrap">
+          <div className="nav-bar">
+            <a href="#top" className="brand" aria-label={t("Abdullah Muhameed home")} onClick={closeMenu}>
+              <Image src="/brand/logo.png" alt="" width={788} height={607} className="brand-logo" priority />
+              <span className="brand-name"><strong>{t("Abdullah Muhameed")}</strong><small>{t("Coach & content creator")}</small></span>
+            </a>
+            <div className="nav-links">
+              {navLinks.map(([href, label]) => <a key={href} href={href} className={active === href ? "is-active" : undefined} aria-current={active === href ? "true" : undefined}>{t(label)}</a>)}
+            </div>
+            <div className="nav-end">
+              <a href={isArabic ? "/en" : "/"} className="language-switch" lang={isArabic ? "en" : "ar"} hrefLang={isArabic ? "en" : "ar"} aria-label={isArabic ? "Switch to English" : "التبديل إلى العربية"}>{isArabic ? "EN" : "عربي"}</a>
+              <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="nav-cta">{t("Let's talk")} <Arrow /></a>
+              <button className="menu-toggle" aria-label={t("Toggle menu")} aria-expanded={menuOpen} aria-controls="mobile-menu" onClick={() => setMenuOpen(!menuOpen)}>
+                <span /><span />
+              </button>
+            </div>
           </div>
-          <div className="nav-end">
-            <a href={isArabic ? "/en" : "/"} className="language-switch" lang={isArabic ? "en" : "ar"} hrefLang={isArabic ? "en" : "ar"} aria-label={isArabic ? "Switch to English" : "التبديل إلى العربية"}>{isArabic ? "EN" : "عربي"}</a>
-            <a href="#contact" className="nav-cta">{t("Let's talk")}</a>
-            <button className="menu-toggle" aria-label={t("Toggle menu")} aria-expanded={menuOpen} aria-controls="mobile-menu" onClick={() => setMenuOpen(!menuOpen)}>
-              <span /><span />
-            </button>
-          </div>
-        </div>
-        <div id="mobile-menu" className="mobile-menu" hidden={!menuOpen}>
-          <div className="wrap">
-            {navLinks.map(([href, label], index) => <a key={href} href={href} onClick={closeMenu}><small>0{index + 1}</small>{t(label)}</a>)}
-            <a href="#contact" onClick={closeMenu} className="mobile-cta">{t("Start a conversation")} <Arrow /></a>
+          <div id="mobile-menu" className="mobile-menu" hidden={!menuOpen}>
+            <div className="mobile-menu-inner">
+              {navLinks.map(([href, label], index) => <a key={href} href={href} onClick={closeMenu} className={active === href ? "is-active" : undefined}><small>0{index + 1}</small>{t(label)}</a>)}
+              <a href={whatsapp} target="_blank" rel="noopener noreferrer" onClick={closeMenu} className="mobile-cta">{t("Start a conversation")} <Arrow /></a>
+            </div>
           </div>
         </div>
       </nav>
@@ -306,7 +373,7 @@ export default function Home({ language }: { language: "ar" | "en" }) {
           </h1>
           <p className="hero-lead hero-in" style={{ "--d": "320ms" } as React.CSSProperties}>{t("Let’s build a body — and a life — you feel good in.")}</p>
           <div className="hero-actions hero-in" style={{ "--d": "420ms" } as React.CSSProperties}>
-            <a href="#contact" className="btn btn-primary">{t("Let’s build your next chapter")} <Arrow /></a>
+            <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-primary">{t("Let’s build your next chapter")} <Arrow /></a>
             <a href="#reels" className="btn btn-ghost"><span className="play-dot"><Play /></span>{t("Watch the reels")}</a>
           </div>
           <dl className="hero-stats hero-in" style={{ "--d": "540ms" } as React.CSSProperties}>
@@ -339,53 +406,16 @@ export default function Home({ language }: { language: "ar" | "en" }) {
               <li><strong>{t("Zamalek Academy")}</strong>{t("Fitness coach")}</li>
             </ul>
             <blockquote className="pull-quote">{t("There’s no shortcut. There’s the right way.")}</blockquote>
-            <a href="#contact" className="link-arrow">{t("My story")} <Arrow /></a>
+            <a href="#moments" className="link-arrow">{t("My story")} <Arrow /></a>
           </div>
         </div>
       </section>
 
-      <section id="coaching" className="section section-alt">
+      <section id="ugc" className="section section-alt">
         <div className="wrap">
           <header className="section-head" data-reveal>
             <div>
-              <p className="eyebrow">{t("02 / Online coaching")}</p>
-              <h2 className="display">{t("No guesswork.")}<br /><span className="accent">{t("Just progress.")}</span></h2>
-            </div>
-            <p className="lead">{t("A plan built around your body, your schedule and your actual life — not a template you'll quit in three weeks.")}</p>
-          </header>
-          <div className="feature-grid">
-            {features.map(([number, title, text], index) => (
-              <article key={number} className="feature-card" data-reveal style={{ "--d": `${index * 90}ms` } as React.CSSProperties}>
-                <span className="feature-number" dir="ltr">{number}</span>
-                <h3>{t(title)}</h3>
-                <p>{t(text)}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="process" data-reveal>
-            <div className="process-head">
-              <p className="eyebrow">{t("How it works")}</p>
-              <h3 className="display display-sm">{t("Three steps.")} <span className="accent">{t("Zero confusion.")}</span></h3>
-            </div>
-            <ol className="process-steps">
-              {steps.map(([title, text], index) => (
-                <li key={title} style={{ "--d": `${index * 120}ms` } as React.CSSProperties}>
-                  <span className="step-index" dir="ltr">{index + 1}</span>
-                  <div><h4>{t(title)}</h4><p>{t(text)}</p></div>
-                </li>
-              ))}
-            </ol>
-            <a href="#contact" className="btn btn-primary">{t("Start a conversation")} <Arrow /></a>
-          </div>
-        </div>
-      </section>
-
-      <section id="ugc" className="section">
-        <div className="wrap">
-          <header className="section-head" data-reveal>
-            <div>
-              <p className="eyebrow">{t("03 / UGC studio")}</p>
+              <p className="eyebrow">{t("02 / UGC studio")}</p>
               <h2 className="display">{t("Content that")}<br /><span className="mark">{t("converts.")}</span></h2>
             </div>
             <p className="lead">{t("Authentic, scroll-stopping content made to feel native to your audience — and valuable to your brand.")}</p>
@@ -401,7 +431,46 @@ export default function Home({ language }: { language: "ar" | "en" }) {
           </div>
           <div className="ugc-foot" data-reveal>
             <ul className="pill-list">{t("Fitness • Food & beverage • Grooming • Lifestyle").split(" • ").map((item) => <li key={item}>{item}</li>)}</ul>
-            <a href="#contact" className="link-arrow">{t("Work with me")} <Arrow /></a>
+            <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="link-arrow">{t("Work with me")} <Arrow /></a>
+          </div>
+        </div>
+      </section>
+
+      <section id="coaching" className="section">
+        <div className="wrap">
+          <header className="section-head" data-reveal>
+            <div>
+              <p className="eyebrow">{t("03 / Online coaching")}</p>
+              <h2 className="display">{t("No guesswork.")}<br /><span className="accent">{t("Just progress.")}</span></h2>
+            </div>
+            <p className="lead">{t("A plan built around your body, your schedule and your actual life — not a template you'll quit in three weeks.")}</p>
+          </header>
+          <div className="coaching-board" data-reveal>
+            <div className="coaching-includes">
+              <p className="board-label">{t("What you get")}</p>
+              <ul className="include-grid">
+                {features.map(([number, title, text]) => (
+                  <li key={number} className="include-item">
+                    <span className="include-number" dir="ltr">{number}</span>
+                    <h3>{t(title)}</h3>
+                    <p>{t(text)}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="coaching-steps">
+              <p className="board-label">{t("How it works")}</p>
+              <h3 className="steps-title">{t("Three steps.")} <span className="accent">{t("Zero confusion.")}</span></h3>
+              <ol className="step-list">
+                {steps.map(([title, text], index) => (
+                  <li key={title}>
+                    <span className="step-index" dir="ltr">{index + 1}</span>
+                    <div><h4>{t(title)}</h4><p>{t(text)}</p></div>
+                  </li>
+                ))}
+              </ol>
+              <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-primary">{t("Start a conversation")} <Arrow /></a>
+            </div>
           </div>
         </div>
       </section>
@@ -488,10 +557,42 @@ export default function Home({ language }: { language: "ar" | "en" }) {
         </div>
       </section>
 
-      <section id="faq" className="section section-alt">
+      <section id="moments" className="section section-alt">
+        <div className="wrap">
+          <header className="section-head" data-reveal>
+            <div>
+              <p className="eyebrow">{t("07 / Off the feed")}</p>
+              <h2 className="display">{t("Moments")}<br /><span className="accent">{t("from the journey.")}</span></h2>
+            </div>
+            <p className="lead">{t("Certified, on set, on the pitch and in the gym — a closer look at the work behind the content.")}</p>
+          </header>
+          <div className="moments-layout">
+            <aside className="credential" data-reveal>
+              <button type="button" className="credential-photo" onClick={() => setPhoto(0)} aria-label={t("ISSA certified trainer")}>
+                <Image src="/moments/issa-certificate.webp" alt={t("ISSA personal trainer certificate")} width={960} height={1280} sizes="(max-width: 860px) 100vw, 32vw" />
+              </button>
+              <div className="credential-copy">
+                <span className="credential-badge">ISSA</span>
+                <h3>{t("Certified Personal Trainer")}</h3>
+                <p>{t("International Sports Sciences Association — completed through Gold's Gym Academy.")}</p>
+              </div>
+            </aside>
+            <div className="moments-grid">
+              {moments.map(([file, caption, width, height], index) => (
+                <button type="button" key={file} className="moment" onClick={() => setPhoto(index)} aria-label={t(caption)}>
+                  <Image src={`/moments/${file}.webp`} alt={t(caption)} width={width} height={height} sizes="(max-width: 600px) 50vw, (max-width: 860px) 33vw, 20vw" />
+                  <span className="moment-tag">{t(caption)}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" className="section">
         <div className="wrap faq-grid">
           <div className="faq-side" data-reveal>
-            <p className="eyebrow">{t("07 / Questions")}</p>
+            <p className="eyebrow">{t("08 / Questions")}</p>
             <h2 className="display">{t("Let's clear")}<br /><span className="accent">{t("things up.")}</span></h2>
             <p className="lead">{t("Can't find your answer? Message me directly.")}</p>
             <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="help-card">
@@ -515,76 +616,55 @@ export default function Home({ language }: { language: "ar" | "en" }) {
         </div>
       </section>
 
-      <section id="contact" className="section contact">
-        <div className="wrap">
-          <div className="contact-panel">
-            <div className="contact-intro" data-reveal>
-              <p className="eyebrow">{t("08 / Start here")}</p>
-              <h2 className="display">{t("Ready to")} <span className="mark">{t("move?")}</span></h2>
-              <p className="lead">{t("Tell me a little about your goals. I'll get back to you within 24 hours.")}</p>
-              <ul className="contact-methods">
-                <li><a href={whatsapp} target="_blank" rel="noopener noreferrer" className="method is-primary"><span className="method-icon"><ChatIcon /></span><span className="method-copy"><small>{t("WhatsApp")}</small><strong dir="ltr">+20 101 705 5212</strong></span><Arrow /></a></li>
-                <li><a href={phone} className="method"><span className="method-icon"><PhoneIcon /></span><span className="method-copy"><small>{t("Call me")}</small><strong dir="ltr">0101 705 5212</strong></span><Arrow /></a></li>
-                <li><a href={`mailto:${email}`} className="method"><span className="method-icon"><MailIcon /></span><span className="method-copy"><small>{t("Email")}</small><strong dir="ltr">{email}</strong></span><Arrow /></a></li>
-                <li><a href={instagram} target="_blank" rel="noopener noreferrer" className="method"><span className="method-icon"><InstagramIcon /></span><span className="method-copy"><small>{t("Instagram")}</small><strong dir="ltr">@abdullahmuhhameed</strong></span><Arrow /></a></li>
-              </ul>
-            </div>
-            <form className="contact-form" data-reveal style={{ "--d": "120ms" } as React.CSSProperties} onSubmit={sendToWhatsApp}>
-              <div className="form-head">
-                <h3>{t("Send a quick message")}</h3>
-                <p>{t("It opens WhatsApp with your message ready to send.")}</p>
-              </div>
-              <label className="field"><span>{t("Name")}</span><input name="name" required autoComplete="name" placeholder={t("Your name")} /></label>
-              <fieldset className="field">
-                <legend>{t("I'm interested in")}</legend>
-                <div className="choice-row">
-                  {interests.map((option) => (
-                    <label key={option} className={`choice${interest === option ? " is-active" : ""}`}>
-                      <input type="radio" name="interest" value={option} checked={interest === option} onChange={() => setInterest(option)} />
-                      <span>{t(option)}</span>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-              <label className="field"><span>{t("Tell me more")}</span><textarea name="message" required placeholder={t("What are you working towards?")} rows={4} /></label>
-              <button type="submit" className="btn btn-primary btn-block"><ChatIcon /> {t("Send on WhatsApp")}</button>
-            </form>
-          </div>
-        </div>
-      </section>
-
       <footer className="site-footer">
-        <div className="wrap footer-grid">
-          <div className="footer-brand">
-            <a href="#top" className="brand" aria-label={t("Abdullah Muhameed home")}>
-              <span className="brand-avatar" aria-hidden="true" />
-              <span className="brand-name"><strong>{t("Abdullah Muhameed")}</strong><small dir="ltr">@abdullahmuhhameed</small></span>
-            </a>
-            <p>{t("BUILT ON DISCIPLINE. DRIVEN BY YOU.")}</p>
-            <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-primary">{t("Start a conversation")} <Arrow /></a>
+        <div className="wrap">
+          <div className="footer-top">
+            <div className="footer-brand">
+              <a href="#top" className="footer-logo-link" aria-label={t("Abdullah Muhameed home")}>
+                <Image src="/brand/logo.png" alt="" width={788} height={607} className="footer-logo" />
+              </a>
+              <p className="footer-tagline">{t("BUILT ON DISCIPLINE. DRIVEN BY YOU.")}</p>
+              <div className="footer-social">
+                <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label={t("Instagram")}><InstagramIcon /></a>
+                <a href={tiktok} target="_blank" rel="noopener noreferrer" aria-label={t("TikTok")}><TikTokIcon /></a>
+                <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label={t("Facebook")}><FacebookIcon /></a>
+                <a href={whatsapp} target="_blank" rel="noopener noreferrer" aria-label={t("WhatsApp")}><ChatIcon /></a>
+                <a href={phone} aria-label={t("Call me")}><PhoneIcon /></a>
+                <a href={`mailto:${email}`} aria-label={t("Email")}><MailIcon /></a>
+              </div>
+            </div>
+
+            <nav className="footer-col" aria-label={t("Explore")}>
+              <h4>{t("Explore")}</h4>
+              <div className="footer-links">
+                {navLinks.map(([href, label]) => <a key={href} href={href}>{t(label)}</a>)}
+                <a href={reelsAccount} target="_blank" rel="noopener noreferrer">{t("See all reels")}</a>
+              </div>
+            </nav>
+
+            <div className="footer-col">
+              <h4>{t("Contact")}</h4>
+              <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="footer-contact"><small>{t("WhatsApp")}</small><span dir="ltr">+20 101 705 5212</span></a>
+              <a href={`mailto:${email}`} className="footer-contact"><small>{t("Email")}</small><span dir="ltr">{email}</span></a>
+              <a href={facebookPage} target="_blank" rel="noopener noreferrer" className="footer-contact"><small>{t("Facebook")}</small><span>{t("Facebook page")}</span></a>
+              <span className="footer-contact"><small>{t("Based in")}</small><span>{t("CAIRO, EGYPT")} · {t("WORLDWIDE")}</span></span>
+            </div>
+
+            <div className="footer-card">
+              <p className="footer-card-title">{t("Ready to")} <span className="accent">{t("move?")}</span></p>
+              <p>{t("Tell me a little about your goals. I'll get back to you within 24 hours.")}</p>
+              <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-primary">{t("Start a conversation")} <Arrow /></a>
+            </div>
           </div>
-          <nav className="footer-col" aria-label={t("Explore")}>
-            <h4>{t("Explore")}</h4>
-            {navLinks.map(([href, label]) => <a key={href} href={href}>{t(label)}</a>)}
-          </nav>
-          <div className="footer-col">
-            <h4>{t("Contact")}</h4>
-            <a href={whatsapp} target="_blank" rel="noopener noreferrer">{t("WhatsApp")}</a>
-            <a href={phone} dir="ltr">0101 705 5212</a>
-            <a href={`mailto:${email}`} dir="ltr">{email}</a>
-          </div>
-          <div className="footer-col">
-            <h4>{t("Follow")}</h4>
-            <a href={instagram} target="_blank" rel="noopener noreferrer">{t("Instagram")}</a>
-            <a href={reelsAccount} target="_blank" rel="noopener noreferrer">{t("Reels")}</a>
+
+          <div className="footer-bottom">
+            <span>{t("© 2026 Abdullah Muhameed. All rights reserved.")}</span>
+            <a href="#top" className="to-top">{t("Back to top")} <span className="to-top-icon" aria-hidden="true">↑</span></a>
           </div>
         </div>
-        <div className="wrap footer-bottom">
-          <span>{t("© 2026 Abdullah Muhameed. All rights reserved.")}</span>
-          <a href="#top">{t("Back to top")} <span aria-hidden="true">↑</span></a>
-        </div>
-        <p className="footer-word" dir="ltr" aria-hidden="true">ABDULLAH<span>MUHAMEED</span></p>
+        <p className="footer-word" dir="ltr" aria-hidden="true">ABDULLAH <span>MUHAMEED</span></p>
       </footer>
+      {photo !== null && <Lightbox index={photo} onClose={closePhoto} onMove={movePhoto} t={t} />}
       <SocialFab t={t} />
     </main>
   );

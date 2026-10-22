@@ -37,7 +37,7 @@ const arabicFont = localFont({
 
 export const arabicMetadata: Metadata = {
   title: "عبدالله محمد — مدرب شخصي وصانع محتوى",
-  icons: { icon: "/brand/avatar.jpg", apple: "/brand/avatar.jpg" },
+  icons: { icon: "/brand/logo-mark.jpg", apple: "/brand/logo-mark.jpg" },
   description: "تدريب أونلاين بخطة تناسبك، ومحتوى يقرّب البراند من جمهوره مع عبدالله محمد.",
   alternates: { languages: { ar: "/", en: "/en" } },
 };
