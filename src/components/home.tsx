@@ -17,6 +17,12 @@ const Arrow = () => (
   </svg>
 );
 
+const Check = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="m5 12.5 4.5 4.5L19 7.5" />
+  </svg>
+);
+
 const SoundOn = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d="M11 5 6 9H3v6h3l5 4V5Z" /><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" />
@@ -76,16 +82,32 @@ const navLinks = [["#about", "About"], ["#ugc", "UGC Studio"], ["#coaching", "Co
 const tape = ["Discipline", "Strength", "Nutrition", "Consistency", "Results", "Content"];
 
 const features = [
-  ["01", "Personal training", "Your workouts, mapped out with purpose and explained so you never feel lost."],
-  ["02", "Nutrition that fits", "Flexible nutrition guidance that fuels your goals without taking over your life."],
-  ["03", "Accountability", "Weekly check-ins, real feedback and a coach in your corner every step."],
-  ["04", "Built to last", "Learn the habits and confidence to keep your results for good."],
+  ["01", "A diet built on your calories", "A custom plan for your goal — gaining or losing weight — calculated on the calories your body actually needs."],
+  ["02", "Food you already eat", "We pick the meals together, so nothing goes into your diet that you don't eat."],
+  ["03", "Video workout program (PDF)", "Every exercise filmed on video, with its name, sets, reps and rest time right next to it."],
+  ["04", "Warm-up video", "A dedicated warm-up file so you start every session ready and safe."],
+  ["05", "Stretching video", "A dedicated stretching file to recover better after every workout."],
+  ["06", "24-hour follow-up", "Direct, instant follow-up around the clock for the whole program — any question, I'm with you."],
 ];
 
 const steps = [
   ["Apply", "Tell me about your goal, your schedule and where you're starting from."],
-  ["Get your plan", "A training and nutrition plan built for you, ready within days."],
-  ["Check in & level up", "Weekly check-ins, adjustments and support until the result shows."],
+  ["Get your plan", "Your calorie-based diet, video workout PDF, warm-up and stretching files."],
+  ["Check in & level up", "Follow-up around the clock, with adjustments until the result shows."],
+];
+
+const plans = [
+  { months: 1, title: "Kickstart", tagline: "Start strong and build the habit.", price: 800, was: 1000, bonus: 0 },
+  { months: 2, title: "Momentum", tagline: "Enough time to see real change in the mirror.", price: 1600, was: 2000, bonus: 0 },
+  { months: 3, title: "Full transformation", tagline: "Pay for 3 months, train for 6.", price: 2400, was: 4800, bonus: 3 },
+];
+
+const planPerks = [
+  "Calorie-based diet for your goal",
+  "Meals built from food you eat",
+  "Video workout program (PDF)",
+  "Warm-up & stretching videos",
+  "24-hour follow-up on WhatsApp",
 ];
 
 const instagram = "https://www.instagram.com/abdullahmuhhameed/";
@@ -153,7 +175,7 @@ function AutoReel({ name, label, soundOn, soundOff }: { name: string; label: str
 }
 
 const faqs = [
-  ["How does online coaching work?", "After your application, we build a plan around your schedule, goals and lifestyle. You get weekly check-ins, direct support and ongoing adjustments so you always know your next move."],
+  ["How does online coaching work?", "You tell me your goal, then you get a diet calculated on your calories from food you eat, a PDF workout program with a video for every exercise, plus warm-up and stretching videos. I follow up with you around the clock for the whole program."],
   ["Do I need a gym to get started?", "Not at all. Your plan can be built for a commercial gym, a home setup or a combination of both."],
   ["How long until I see results?", "Most clients feel meaningful changes in the first few weeks. Your consistency, starting point and goal determine the pace — we focus on sustainable progress that lasts."],
   ["What kind of brands do you work with?", "I create short-form UGC for fitness, nutrition, food & beverage, grooming, fashion and lifestyle brands. Every collaboration is tailored to the audience, platform and campaign goal."],
@@ -448,7 +470,7 @@ export default function Home({ language }: { language: "ar" | "en" }) {
               <p className="eyebrow">{t("03 / Online coaching")}</p>
               <h2 className="display">{t("No guesswork.")}<br /><span className="accent">{t("Just progress.")}</span></h2>
             </div>
-            <p className="lead">{t("Personalized training, practical nutrition, weekly check-ins and direct support — all built around your body, schedule and real life.")}</p>
+            <p className="lead">{t("A calorie-based diet made from food you eat, a filmed workout program and follow-up around the clock — all built around your goal.")}</p>
           </header>
           <div className="coaching-board" data-reveal>
             <div className="coaching-includes">
@@ -475,6 +497,48 @@ export default function Home({ language }: { language: "ar" | "en" }) {
                 ))}
               </ol>
               <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-primary">{t("Start a conversation")} <Arrow /></a>
+            </div>
+          </div>
+
+          <div id="plans" className="plans" data-reveal>
+            <div className="plans-head">
+              <p className="board-label">{t("Coaching plans")}</p>
+              <p className="plans-note">{t("Every plan includes everything above.")}</p>
+            </div>
+            <div className="plan-grid">
+              {plans.map(({ months, title, tagline, price, was, bonus }) => {
+                const duration = t(months === 1 ? "1 month" : `${months} months`);
+                const total = months + bonus;
+                const off = Math.round((1 - price / was) * 100);
+                const money = (value: number) => value.toLocaleString("en-US");
+                const message = `${t("Hi Abdullah, I'd like the plan:")} ${t(title)} (${duration}${bonus ? ` + ${bonus} ${t("months free")}` : ""})`;
+                return (
+                  <article key={months} className={`plan-card${bonus ? " is-best" : ""}`}>
+                    {bonus ? <span className="plan-badge">{t("Best value")}</span> : null}
+                    <div className="plan-top">
+                      <div>
+                        <p className="plan-duration">{duration}{bonus ? <span> + {bonus} {t("free")}</span> : null}</p>
+                        <h3 className="plan-name">{t(title)}</h3>
+                      </div>
+                      <span className="plan-off" dir="ltr">-{off}%</span>
+                    </div>
+                    <p className="plan-tagline">{t(tagline)}</p>
+                    <div className="plan-pricing">
+                      <s className="plan-was"><span dir="ltr">{money(was)}</span> {t("EGP")}</s>
+                      <p className="plan-price"><b dir="ltr">{money(price)}</b> <span>{t("EGP")}</span></p>
+                      <p className="plan-meta">
+                        <span><span dir="ltr">{money(price / total)}</span> {t("EGP / month")}</span>
+                        <span className="plan-save">{t("You save")} <span dir="ltr">{money(was - price)}</span> {t("EGP")}</span>
+                      </p>
+                    </div>
+                    <ul className="plan-perks">
+                      {bonus ? <li className="is-bonus"><Check />{`${bonus} ${t("months of coaching free")} — ${total} ${t("months in total")}`}</li> : null}
+                      {planPerks.map((perk) => <li key={perk}><Check />{t(perk)}</li>)}
+                    </ul>
+                    <a href={`${whatsapp}?text=${encodeURIComponent(message)}`} target="_blank" rel="noopener noreferrer" className={`btn ${bonus ? "btn-primary" : "btn-ghost"} btn-block`}>{t("Choose this plan")} <Arrow /></a>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -585,9 +649,7 @@ export default function Home({ language }: { language: "ar" | "en" }) {
             <div className="moments-grid">
               {moments.map(([file, caption, width, height], index) => (
                 <button type="button" key={file} className="moment" onClick={() => setPhoto(index)} aria-label={t(caption)}>
-                  <Image src={`/moments/${file}.webp`} alt={t(caption)} width={width} height={height} sizes="(max-width: 600px) 50vw, (max-width: 860px) 33vw, 20vw" />
-                  <span className="moment-tag">{t(caption)}</span>
-                </button>
+                  <Image src={`/moments/${file}.webp`} alt={t(caption)} width={width} height={height} sizes="(max-width: 600px) 50vw, (max-width: 860px) 33vw, 20vw" />                </button>
               ))}
             </div>
           </div>
