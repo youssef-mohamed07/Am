@@ -197,9 +197,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .step-list p { margin-top: 6px; color: var(--muted); font-size: 14.5px; line-height: 1.65; }
 [lang="ar"] .step-list h4 { font-weight: 800; }
 [lang="ar"] .step-list p { line-height: 1.9; }
-.plans { margin-top: clamp(40px, 5vw, 64px); scroll-margin-top: 100px; }
-.plans-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; }
-.plans-note { color: var(--muted); font-size: 15px; }
 .plan-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 22px; }
 .plan-card { position: relative; display: flex; flex-direction: column; padding: clamp(24px, 2.6vw, 34px); border: 1px solid var(--line-strong); border-radius: calc(var(--radius) + 2px); background: var(--bg-2); transition: border-color .3s, transform .35s var(--ease); }
 .plan-card:hover { border-color: var(--accent); transform: translateY(-4px); }

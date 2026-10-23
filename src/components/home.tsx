@@ -77,7 +77,7 @@ const Star = () => (
   </svg>
 );
 
-const navLinks = [["#about", "About"], ["#ugc", "UGC Studio"], ["#coaching", "Coaching"], ["#transformations", "Results"], ["#reels", "Reels"], ["#faq", "FAQ"]];
+const navLinks = [["#about", "About"], ["#ugc", "UGC Studio"], ["#reels", "Reels"], ["#coaching", "Coaching"], ["#transformations", "Results"], ["#plans", "Plans"], ["#faq", "FAQ"]];
 
 const tape = ["Discipline", "Strength", "Nutrition", "Consistency", "Results", "Content"];
 
@@ -463,11 +463,35 @@ export default function Home({ language }: { language: "ar" | "en" }) {
         </div>
       </section>
 
+      <section id="reels" className="section reels">
+        <div className="wrap reels-layout">
+          <header className="reels-head" data-reveal>
+            <p className="eyebrow">{t("03 / From the feed")}</p>
+            <h2 className="display">{t("Watch.")}<br />{t("Feel it.")}</h2>
+            <p className="reels-lead">{t("Training, food and everyday life — the way I share it with my followers every day.")}</p>
+            <dl className="reels-stats">
+              <div><dt>{t("followers")}</dt><dd dir="ltr">51.7K</dd></div>
+              <div><dt>{t("top reel likes")}</dt><dd dir="ltr">129.8K</dd></div>
+            </dl>
+            <a href={reelsAccount} target="_blank" rel="noopener noreferrer" className="btn btn-dark"><span dir="ltr">@abdullahmuhhameed</span> <Arrow /></a>
+          </header>
+          <div className="reel-grid">
+            {reels.map(([name, title, link, count, unit], index) => (
+              <article key={name} className={`reel-card${index === 0 ? " is-top" : ""}`} data-reveal style={{ "--d": `${index * 90}ms`, "--tilt": `${index % 2 ? 2 : -2}deg` } as React.CSSProperties}>
+                <AutoReel name={name} label={t(title)} soundOn={t("Turn sound on")} soundOff={t("Turn sound off")} />
+                <div className="reel-copy">{index === 0 ? <em className="reel-top">{t("Top reel")}</em> : null}<span><b dir="ltr">{count}</b> {t(unit)}</span><p>{t(title)}</p></div>
+                <a className="reel-link" href={link} target="_blank" rel="noopener noreferrer" aria-label={`${t(title)} — ${t("Watch on Instagram")}`}><Arrow /></a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section id="coaching" className="section">
         <div className="wrap">
           <header className="section-head" data-reveal>
             <div>
-              <p className="eyebrow">{t("03 / Online coaching")}</p>
+              <p className="eyebrow">{t("04 / Online coaching")}</p>
               <h2 className="display">{t("No guesswork.")}<br /><span className="accent">{t("Just progress.")}</span></h2>
             </div>
             <p className="lead">{t("A calorie-based diet made from food you eat, a filmed workout program and follow-up around the clock — all built around your goal.")}</p>
@@ -499,48 +523,6 @@ export default function Home({ language }: { language: "ar" | "en" }) {
               <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-primary">{t("Start a conversation")} <Arrow /></a>
             </div>
           </div>
-
-          <div id="plans" className="plans" data-reveal>
-            <div className="plans-head">
-              <p className="board-label">{t("Coaching plans")}</p>
-              <p className="plans-note">{t("Every plan includes everything above.")}</p>
-            </div>
-            <div className="plan-grid">
-              {plans.map(({ months, title, tagline, price, was, bonus }) => {
-                const duration = t(months === 1 ? "1 month" : `${months} months`);
-                const total = months + bonus;
-                const off = Math.round((1 - price / was) * 100);
-                const money = (value: number) => value.toLocaleString("en-US");
-                const message = `${t("Hi Abdullah, I'd like the plan:")} ${t(title)} (${duration}${bonus ? ` + ${bonus} ${t("months free")}` : ""})`;
-                return (
-                  <article key={months} className={`plan-card${bonus ? " is-best" : ""}`}>
-                    {bonus ? <span className="plan-badge">{t("Best value")}</span> : null}
-                    <div className="plan-top">
-                      <div>
-                        <p className="plan-duration">{duration}{bonus ? <span> + {bonus} {t("free")}</span> : null}</p>
-                        <h3 className="plan-name">{t(title)}</h3>
-                      </div>
-                      <span className="plan-off" dir="ltr">-{off}%</span>
-                    </div>
-                    <p className="plan-tagline">{t(tagline)}</p>
-                    <div className="plan-pricing">
-                      <s className="plan-was"><span dir="ltr">{money(was)}</span> {t("EGP")}</s>
-                      <p className="plan-price"><b dir="ltr">{money(price)}</b> <span>{t("EGP")}</span></p>
-                      <p className="plan-meta">
-                        <span><span dir="ltr">{money(price / total)}</span> {t("EGP / month")}</span>
-                        <span className="plan-save">{t("You save")} <span dir="ltr">{money(was - price)}</span> {t("EGP")}</span>
-                      </p>
-                    </div>
-                    <ul className="plan-perks">
-                      {bonus ? <li className="is-bonus"><Check />{`${bonus} ${t("months of coaching free")} — ${total} ${t("months in total")}`}</li> : null}
-                      {planPerks.map((perk) => <li key={perk}><Check />{t(perk)}</li>)}
-                    </ul>
-                    <a href={`${whatsapp}?text=${encodeURIComponent(message)}`} target="_blank" rel="noopener noreferrer" className={`btn ${bonus ? "btn-primary" : "btn-ghost"} btn-block`}>{t("Choose this plan")} <Arrow /></a>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
         </div>
       </section>
 
@@ -548,7 +530,7 @@ export default function Home({ language }: { language: "ar" | "en" }) {
         <div className="wrap">
           <header className="section-head" data-reveal>
             <div>
-              <p className="eyebrow">{t("04 / Real people. Real change.")}</p>
+              <p className="eyebrow">{t("05 / Real people. Real change.")}</p>
               <h2 className="display">{t("Proof over")}<br /><span className="accent">{t("promises.")}</span></h2>
             </div>
             <p className="lead">{t("No crash diets. No six-week shortcuts. Just clients building a body and mindset they can keep.")}</p>
@@ -558,30 +540,6 @@ export default function Home({ language }: { language: "ar" | "en" }) {
               <figure key={id} className="transform-card" data-reveal style={{ "--d": `${(index % 3) * 90}ms` } as React.CSSProperties}>
                 <div className="transform-img" role="img" aria-label={t("Client before and after")} style={{ backgroundImage: `url(/results/before-after-${id}.jpg)` }} />
               </figure>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="reels" className="section reels">
-        <div className="wrap reels-layout">
-          <header className="reels-head" data-reveal>
-            <p className="eyebrow">{t("05 / From the feed")}</p>
-            <h2 className="display">{t("Watch.")}<br />{t("Feel it.")}</h2>
-            <p className="reels-lead">{t("Training, food and everyday life — the way I share it with my followers every day.")}</p>
-            <dl className="reels-stats">
-              <div><dt>{t("followers")}</dt><dd dir="ltr">51.7K</dd></div>
-              <div><dt>{t("top reel likes")}</dt><dd dir="ltr">129.8K</dd></div>
-            </dl>
-            <a href={reelsAccount} target="_blank" rel="noopener noreferrer" className="btn btn-dark"><span dir="ltr">@abdullahmuhhameed</span> <Arrow /></a>
-          </header>
-          <div className="reel-grid">
-            {reels.map(([name, title, link, count, unit], index) => (
-              <article key={name} className={`reel-card${index === 0 ? " is-top" : ""}`} data-reveal style={{ "--d": `${index * 90}ms`, "--tilt": `${index % 2 ? 2 : -2}deg` } as React.CSSProperties}>
-                <AutoReel name={name} label={t(title)} soundOn={t("Turn sound on")} soundOff={t("Turn sound off")} />
-                <div className="reel-copy">{index === 0 ? <em className="reel-top">{t("Top reel")}</em> : null}<span><b dir="ltr">{count}</b> {t(unit)}</span><p>{t(title)}</p></div>
-                <a className="reel-link" href={link} target="_blank" rel="noopener noreferrer" aria-label={`${t(title)} — ${t("Watch on Instagram")}`}><Arrow /></a>
-              </article>
             ))}
           </div>
         </div>
@@ -656,10 +614,57 @@ export default function Home({ language }: { language: "ar" | "en" }) {
         </div>
       </section>
 
-      <section id="faq" className="section">
+      <section id="plans" className="section">
+        <div className="wrap">
+          <header className="section-head" data-reveal>
+            <div>
+              <p className="eyebrow">{t("08 / Coaching plans")}</p>
+              <h2 className="display">{t("Pick your plan.")}<br /><span className="accent">{t("Start today.")}</span></h2>
+            </div>
+            <p className="lead">{t("Every plan includes the full program: a calorie-based diet, video workouts, warm-up and stretching files, and follow-up around the clock.")}</p>
+          </header>
+          <div className="plan-grid" data-reveal>
+            {plans.map(({ months, title, tagline, price, was, bonus }) => {
+              const duration = t(months === 1 ? "1 month" : `${months} months`);
+              const total = months + bonus;
+              const off = Math.round((1 - price / was) * 100);
+              const money = (value: number) => value.toLocaleString("en-US");
+              const message = `${t("Hi Abdullah, I'd like the plan:")} ${t(title)} (${duration}${bonus ? ` + ${bonus} ${t("months free")}` : ""})`;
+              return (
+                <article key={months} className={`plan-card${bonus ? " is-best" : ""}`}>
+                  {bonus ? <span className="plan-badge">{t("Best value")}</span> : null}
+                  <div className="plan-top">
+                    <div>
+                      <p className="plan-duration">{duration}{bonus ? <span> + {bonus} {t("free")}</span> : null}</p>
+                      <h3 className="plan-name">{t(title)}</h3>
+                    </div>
+                    <span className="plan-off" dir="ltr">-{off}%</span>
+                  </div>
+                  <p className="plan-tagline">{t(tagline)}</p>
+                  <div className="plan-pricing">
+                    <s className="plan-was"><span dir="ltr">{money(was)}</span> {t("EGP")}</s>
+                    <p className="plan-price"><b dir="ltr">{money(price)}</b> <span>{t("EGP")}</span></p>
+                    <p className="plan-meta">
+                      <span><span dir="ltr">{money(price / total)}</span> {t("EGP / month")}</span>
+                      <span className="plan-save">{t("You save")} <span dir="ltr">{money(was - price)}</span> {t("EGP")}</span>
+                    </p>
+                  </div>
+                  <ul className="plan-perks">
+                    {bonus ? <li className="is-bonus"><Check />{`${bonus} ${t("months of coaching free")} — ${total} ${t("months in total")}`}</li> : null}
+                    {planPerks.map((perk) => <li key={perk}><Check />{t(perk)}</li>)}
+                  </ul>
+                  <a href={`${whatsapp}?text=${encodeURIComponent(message)}`} target="_blank" rel="noopener noreferrer" className={`btn ${bonus ? "btn-primary" : "btn-ghost"} btn-block`}>{t("Choose this plan")} <Arrow /></a>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" className="section section-alt">
         <div className="wrap faq-grid">
           <div className="faq-side" data-reveal>
-            <p className="eyebrow">{t("08 / Questions")}</p>
+            <p className="eyebrow">{t("09 / Questions")}</p>
             <h2 className="display">{t("Let's clear")}<br /><span className="accent">{t("things up.")}</span></h2>
             <p className="lead">{t("Can't find your answer? Message me directly.")}</p>
             <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="help-card">
