@@ -183,6 +183,8 @@ export const arabic: Record<string, string> = {
   "Food & beverage": "أكل ومشروبات",
   "Fragrance": "عطور",
   "Fashion": "موضة",
+  "Supplements": "مكملات غذائية",
+  "Travel": "سفر",
   "Turn sound on": "شغّل الصوت",
   "Turn sound off": "اقفل الصوت",
   "Watch on Instagram": "اتفرّج على إنستجرام",

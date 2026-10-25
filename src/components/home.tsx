@@ -133,6 +133,8 @@ const brandReels = [
   ["", "Watch on Instagram", "Instagram", "https://www.instagram.com/reel/DeNP0AOtLyA/"],
   ["oud", "Oud Shop", "Fragrance", "https://www.instagram.com/reel/DexZhXeN-GC/"],
   ["mavin", "Mavin Wear", "Fashion", "https://www.instagram.com/reel/DeuztNrtsxX/"],
+  ["2m", "2M", "Supplements", "https://www.instagram.com/reel/De5TsBoslGy/"],
+  ["rehla", "Rehla", "Travel", "https://www.instagram.com/reel/De7uYsutz8u/"],
 ];
 
 // Muted, looping reel that plays only while on screen. Tap to toggle sound.
