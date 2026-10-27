@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Home from "../../components/home";
+import { siteUrl } from "../site-config";
 
-export const metadata: Metadata = { title: "Abdullah Muhameed — Online Coaching & Content", description: "Personalized online coaching and high-impact UGC content by Abdullah Muhameed.", icons: { icon: "/brand/logo-mark.jpg", apple: "/brand/logo-mark.jpg" }, alternates: { canonical: "/en", languages: { ar: "/ar", en: "/en", "x-default": "/en" } } };
+export const metadata: Metadata = { metadataBase: new URL(siteUrl), title: "Abdullah Muhameed — Online Coaching & Content", description: "Personalized online coaching and high-impact UGC content by Abdullah Muhameed.", icons: { icon: "/brand/logo-mark.jpg", apple: "/brand/logo-mark.jpg" }, alternates: { canonical: "/en", languages: { ar: "/ar", en: "/en", "x-default": "/en" } } };
 
 export default function Page() {
   return <Home language="en" />;

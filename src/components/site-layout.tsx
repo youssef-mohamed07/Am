@@ -3,6 +3,7 @@ import { Anton, Geist } from "next/font/google";
 import localFont from "next/font/local";
 import "../app/globals.css";
 import "../app/site.css";
+import { siteUrl } from "../app/site-config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ const arabicFont = localFont({
 });
 
 export const arabicMetadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "عبدالله محمد — مدرب شخصي وصانع محتوى",
   icons: { icon: "/brand/logo-mark.jpg", apple: "/brand/logo-mark.jpg" },
   description: "تدريب أونلاين بخطة تناسبك، ومحتوى يقرّب البراند من جمهوره مع عبدالله محمد.",
