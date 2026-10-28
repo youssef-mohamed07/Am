@@ -274,11 +274,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .credentials strong { color: var(--accent); font-family: var(--font-head); font-size: 22px; font-weight: 400; text-transform: uppercase; }
 [lang="ar"] .credentials strong { font-weight: 900; font-size: 19px; }
 .pull-quote { margin-block: 36px; padding-inline-start: 22px; border-inline-start: 4px solid var(--accent); font-family: var(--font-accent); font-size: clamp(26px, 2.6vw, 36px); line-height: 1.15; text-transform: uppercase; }
-[lang="ar"] .credentials { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 30px; }
-.credentials li { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; border: 1px solid var(--line-strong); border-radius: 16px; color: var(--muted); font-size: 14px; line-height: 1.5; }
-.credentials strong { color: var(--accent); font-family: var(--font-head); font-size: 22px; font-weight: 400; text-transform: uppercase; }
-[lang="ar"] .credentials strong { font-weight: 900; font-size: 19px; }
-.pull-quote { text-transform: none; font-weight: 900; line-height: 1.6; }
+[lang="ar"] .pull-quote { text-transform: none; font-weight: 900; line-height: 1.6; }
 
 /* Results */
 .result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
@@ -528,7 +524,8 @@ a.footer-contact:hover span { color: var(--accent); }
   .nav-end { margin-inline-start: auto; }
   .menu-toggle { display: grid; }
   .reels-layout { grid-template-columns: 1fr; gap: 36px; }
-  .reel-grid, .ugc-grid { display: grid; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(240px, 42%); justify-content: start; overflow-x: auto; scroll-snap-type: x mandatory; padding: 10px 4px 24px; margin-inline: -4px; scrollbar-width: none; }
+  /* bleed the carousels to the screen edge instead of clipping at the page gutter */
+  .reel-grid, .ugc-grid { display: grid; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(240px, 42%); justify-content: start; overflow-x: auto; scroll-snap-type: x mandatory; padding: 10px clamp(20px, 4vw, 48px) 24px; margin-inline: calc(-1 * clamp(20px, 4vw, 48px)); scroll-padding-inline: clamp(20px, 4vw, 48px); scrollbar-width: none; }
   .reel-grid::-webkit-scrollbar, .ugc-grid::-webkit-scrollbar { display: none; }
   .reel-card, .media-card { scroll-snap-align: center; }
   .hero-badge { display: none; }
@@ -565,7 +562,11 @@ a.footer-contact:hover span { color: var(--accent); }
   .nav-cta { display: none; }
   .nav-bar, .is-scrolled .nav-bar { gap: 12px; height: 60px; padding-inline: 10px 8px; }
   .brand-logo, .is-scrolled .brand-logo { height: 42px; }
-  .brand-name strong { font-size: 14px; }
+  .brand, .brand-name { min-width: 0; }
+  .brand-name strong, [lang="en"] .brand-name strong { font-size: 14px; }
+  .kicker, [lang="ar"] .kicker { gap: 8px; font-size: 12px; letter-spacing: .03em; }
+  .credentials, [lang="ar"] .credentials { grid-template-columns: 1fr; gap: 10px; }
+  .credentials li { padding: 14px 16px; }
   .footer-top { grid-template-columns: 1fr; gap: 36px; }
   .moments-grid { columns: 2; column-gap: 10px; }
   .include-grid { grid-template-columns: 1fr; }  .include-item { padding: 20px; }
@@ -605,6 +606,24 @@ a.footer-contact:hover span { color: var(--accent); }
   .transform-grid { grid-template-columns: 1fr; }
   .about-sticker { inset-inline-start: 12px; }
   .about-sticker strong { font-size: 44px; }
+}
+
+/* small phones: the name + switch + menu button no longer fit in the bar */
+@media (max-width: 420px) {
+  .brand-name small { display: none; }
+  .hero-stats { display: grid; grid-template-columns: repeat(3, auto); }
+  .hero-stats dd { font-size: 32px; }
+}
+
+@media (max-width: 359px) {
+  .brand-name { display: none; }
+}
+
+/* touch screens: a tap leaves :hover stuck, so drop the lift/tilt effects */
+@media (hover: none) {
+  .btn-primary:hover, .btn-dark:hover, .include-item:hover, .plan-card:hover, .transform-card:hover, .message-card:hover, .review-card:hover, .feedback-cta:hover, .help-card:hover, .method:hover { transform: none; }
+  .reel-card:hover { transform: rotate(var(--tilt, 0deg)); }
+  .media-card:hover .media-img, .reel-card:hover .reel-img, .result-card:hover .result-img, .transform-card:hover .transform-img { transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
